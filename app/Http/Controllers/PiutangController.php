@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Piutang;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 
 class PiutangController extends Controller
@@ -15,7 +16,6 @@ class PiutangController extends Controller
         $searchsales = $request->searchsales;
         $start = $request->start;
         $end = $request->end;
-        // $sales = $request->sales;
         $pagination= 100;
 
         $plis = Piutang::where('kodesupel', 'LIKE', '%' .$searchsupel. '%')
@@ -24,11 +24,24 @@ class PiutangController extends Controller
                     $start, $end,
                 ])
                 ->paginate($pagination);
-
+        
+        
+        // Ini Variable untuk hasil filter based on merek
+        $results = DB::connection('pgsql')->table('tbl_piutang')
+            ->select('merek', DB::connection('pgsql')->raw('SUM(piutang) as total_piutang'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->groupBy('merek')
+            ->orderBy('total_piutang', 'asc')
+            ->get();
+        
         return view('piutang', [
             'dataPiutang' => $plis,
-            'divisinya' => 'Test',
+            'divisinya' => 'TEST',
+            'filter' => $results,
         ]);
+
     }
 
     public function exportPdf(Request $request) {
@@ -44,9 +57,20 @@ class PiutangController extends Controller
                     $start, $end,
                 ])
                 ->paginate($pagination);
+                // Ini Variable untuk hasil filter based on merek
+        $results = DB::connection('pgsql')->table('tbl_piutang')
+            ->select('merek', DB::connection('pgsql')->raw('SUM(piutang) as total_piutang'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->groupBy('merek')
+            ->orderBy('total_piutang', 'asc')
+            ->get();
+        
         $pdf = Pdf::loadView('pdf.export-piutang', [
             'dataPiutang' => $plis,
-            'divisinya' => 'Test',
+            'divisinya' => 'TEST',
+            'filter' => $results,
         ]);
         return $pdf->download('pembayaranPiutang-'.Carbon::now()->timestamp.'.pdf');
     }

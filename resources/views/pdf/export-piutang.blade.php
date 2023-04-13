@@ -43,7 +43,7 @@
         }
 
         .table-font {
-            font-size: 10px;
+            font-size: 8px;
         }
     </style>
 </head>
@@ -52,7 +52,7 @@
     @php
         $nomor = 1;
     @endphp
-    <h1 class="font">Laporan Piutang</h1>
+    <h1 class="font">Laporan Piutang  {{$divisinya}}</h1>
     <div class="inline">
         <div class="inline">
             <p class="font w-1/2">Time Export: {{ date("Y-m-d H:i:s")}}</p>
@@ -62,8 +62,40 @@
             <p class="font w-1/2">Tanggal : {{request('start')}} - {{request('end')}}</p>
             <p class="font w-1/2">Sales : {{request('sales')}}</p>
         </div>
+        <div class="inline" style="border: 1px solid #000; padding: 0 10px;">
+            <h1>Nilai (-) = Retur</h1>
+        </div>
     </div>
 
+    {{-- Kesimpulan Filter --}}
+    <h5 style="margin: 10px 0;">Laporan Total Per Merek</h5>
+    <table class="table">
+        <thead >
+            <tr>
+                <th class="table-font" style="padding: 2px 20px;">
+                    Nama Merek
+                </th>                
+                <th class="table-font" style="padding: 2px 20px;">
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($filter as $item)
+            <tr>
+                
+                <td class="table-font">
+                    {{$item->merek}}
+                </td>
+                <td class="table-font">
+                    {{$item->total_piutang}}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
+    <h5 style="margin: 10px 0;">Rincian Laporan</h5>
     <table class="table">
         <thead>
             <tr>

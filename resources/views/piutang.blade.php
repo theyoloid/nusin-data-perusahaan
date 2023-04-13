@@ -1,85 +1,123 @@
 <x-layout>
-    <div class="grid gap-2 my-4">
+    {{-- Heading --}}
+    <div class="flex gap-2 my-4 place-items-center">
         <h1 class="font-bold text-stone-700 text-3xl">Laporan Piutang {{$divisinya}}</h1>
-        <a href="export{{ Request::getRequestUri() }}"  class="underline text-blue-600">Export PDF</a>
-
+        <a href="export{{ Request::getRequestUri() }}"  class="text-sm px-3 py-2 hover:bg-blue-50 rounded-lg text-blue-600 w-fit flex gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 my-auto">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+            <p class="my-auto">Download PDF</p>
+        </a>
         <hr class="border-stone-500">
     </div>
-    {{-- The Filter --}}
-
-    {{-- The Tables --}}
-    <!-- component -->
+    
     <div class="antialiased sans-serif  h-screen">
         {{-- The Tables --}}
-        <div class="container mx-auto py-6 px-4" x-data="datatables()" x-cloak>
+        <div class="container mx-auto" x-data="datatables()" x-cloak>
+            <div class="flex gap-5">
             {{-- Filter, Search, dll --}}
-            <form action="#" method="get">  
-                <div class="mb-4 md:flex justify-between items-center">
-                    <div class="grid md:flex gap-4">
-                        {{-- DatePicker --}}                    
-                        <div date-rangepicker class="flex items-center w-80">
-                            {{-- Select Start day --}}
-                            <div class="relative w-fit">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                <form action="#" method="get" class="bg-blue-50 w-fit px-8 py-2 rounded-full">  
+                    <div class="md:flex justify-between items-center">
+                        <div class="grid md:flex gap-4">
+                            {{-- DatePicker --}}                    
+                            <div date-rangepicker class="flex items-center w-80">
+                                {{-- Select Start day --}}
+                                <div class="relative w-fit">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <input name="start" type="text" class="bg-stone-50 border border-stone-300 text-stone-900 text-sm rounded-lg focus:ring-stone-500 focus:border-stone-500 block w-full pl-10 p-2.5  dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" value="{{request('start')}}" placeholder="Start Date">
                                 </div>
-                                <input name="start" type="text" class="bg-stone-50 border border-stone-300 text-stone-900 text-sm rounded-lg focus:ring-stone-500 focus:border-stone-500 block w-full pl-10 p-2.5  dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" value="{{request('start')}}" placeholder="Start Date">
-                            </div>
-                            <span class="mx-4 text-stone-500">to</span>
-                            {{-- End Date --}}
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <input name="end" type="text" class="bg-stone-50 border border-stone-300 text-stone-900 text-sm rounded-lg focus:ring-stone-500 focus:border-stone-500 block w-full pl-10 p-2.5  dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" value="{{request('end')}}" placeholder="End Date">
-                            </div>
-                        </div>
-                        
-                        {{-- Search V1 : Filter by Merek and Sales --}}
-                        <div class="md:flex gap-4 w-72">
-                            {{-- Search By MEREK --}}
-                            <div class="flex gap-4">
-                                <label for="default-search" class="mb-2 text-sm font-medium text-stone-900 sr-only dark:text-stone-500">Search By Pelanggan</label>
+                                <span class="mx-4 text-stone-500">to</span>
+                                {{-- End Date --}}
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                                     </div>
-                                    <input type="search" id="default-search" name="searchsupel" class="block w-full px-4 pl-10 text-sm text-stone-900 border border-stone-300 rounded-lg bg-stone-50 focus:ring-stone-500 focus:border-stone-500 dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" placeholder="Cari Pelanggan" value="{{request('searchsupel')}}">
+                                    <input name="end" type="text" class="bg-stone-50 border border-stone-300 text-stone-900 text-sm rounded-lg focus:ring-stone-500 focus:border-stone-500 block w-full pl-10 p-2.5  dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" value="{{request('end')}}" placeholder="End Date">
+                                </div>
+                            </div>
+                            
+                            {{-- Search V1 : Filter by Merek and Sales --}}
+                            <div class="md:flex gap-4 w-72">
+                                {{-- Search By MEREK --}}
+                                <div class="flex gap-4">
+                                    <label for="default-search" class="mb-2 text-sm font-medium text-stone-900 sr-only dark:text-stone-500">Search By Pelanggan</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        </div>
+                                        <input type="search" id="default-search" name="searchsupel" class="block w-full px-4 pl-10 text-sm text-stone-900 border border-stone-300 rounded-lg bg-stone-50 focus:ring-stone-500 focus:border-stone-500 dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" placeholder="Cari Pelanggan" value="{{request('searchsupel')}}">
+                                    </div>
+                                </div>
+
+                                {{-- Search By Sales --}}
+                                <div class="flex gap-4">
+                                    <label for="default-search" class="mb-2 text-sm font-medium text-stone-900 sr-only dark:text-stone-500">Search By No Transaksi</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        </div>
+                                        <input type="search" id="default-search" name="searchsales" class="block w-full px-4 pl-10 text-sm text-stone-900 border border-stone-300 rounded-lg bg-stone-50 focus:ring-stone-500 focus:border-stone-500 dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" placeholder="Cari Sales" value="{{request('searchsales')}}">
+                                    </div>
                                 </div>
                             </div>
 
-                            {{-- Search By Sales --}}
-                            <div class="flex gap-4">
-                                <label for="default-search" class="mb-2 text-sm font-medium text-stone-900 sr-only dark:text-stone-500">Search By No Transaksi</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                    </div>
-                                    <input type="search" id="default-search" name="searchsales" class="block w-full px-4 pl-10 text-sm text-stone-900 border border-stone-300 rounded-lg bg-stone-50 focus:ring-stone-500 focus:border-stone-500 dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" placeholder="Cari Sales" value="{{request('searchsales')}}">
-                                </div>
+                            {{-- Button --}}
+                            <div class="md:flex">
+                                <button type="submit" class="flex items-center text-stone-700 px-5 py-2 rounded-full bg-blue-200 hover:bg-blue-800 hover:text-white">
+                                    <p>Submit</p>
+                                </button>
                             </div>
+
+
                         </div>
-
-                        {{-- Button --}}
-                        <div class="md:flex">
-                            <button type="submit" class="flex gap-2 items-center bg-stone-50 text-stone-500 px-4 py-2 rounded-md hover:bg-stone-800 hover:text-white">
-                                <p>Submit</p>
-                            </button>
-                        </div>
-
-
                     </div>
-                </div>
                 </form>
+                <div class="grid border border-blue-300 bg-blue-50 px-5 place-content-center rounded-3xl" >
+                    <h1 class="font-semibold text-2xl my-auto text-stone-600">Nilai (-) = Retur</h1>
+                </div>
+            </div>
 
-            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
+            {{-- Kesimpulan Filter --}}
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative my-8">
+                <table>
+                    <thead class="bg-blue-50">
+                        <tr>
+                            <th class="px-6 py-2 text-xs text-stone-600">
+                                Nama Merek
+                            </th>
+                            
+                            @foreach ($filter as $item)
+                            <th class="px-6 py-2 text-xs text-gray-500">
+                                {{$item->merek}}
+                            </th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr class="whitespace-nowrap">
+                            
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                Total
+                            </td>
+                            @foreach ($filter as $item)
+                            <td class="px-6 py-4">
+                                {{$item->total_piutang}}
+                            </td>
+                            @endforeach
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+                <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
                 {{-- Table Start Here --}}
                 <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
                     {{-- Table Head --}}
                     <thead>
                         <tr class="text-left">
                             <template x-for="heading in headings">
-                                <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"
+                                <th class="bg-blue-50 sticky top-0 border-b border-stone-200 px-6 py-2 text-stone-600 font-bold tracking-wider uppercase text-xs"
                                     x-text="heading.value" :x-ref="heading.key" :class="{ [heading.key]: true }"></th>
                             </template>
                         </tr>
@@ -135,7 +173,8 @@
                         </template>
                     </tbody>
                 </table>
-            </div>
+        </div>
+
             <div class="my-8 ">
                 {{ $dataPiutang->links() }}
             </div>

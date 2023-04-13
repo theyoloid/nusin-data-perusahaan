@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\JatimPenjualan;
 use Illuminate\Http\Request;
+use App\Models\JatimPenjualan;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 
 class JatimPenjualanController extends Controller
@@ -17,9 +18,8 @@ class JatimPenjualanController extends Controller
         $searchsales = $request->searchsales;
         $start = $request->start;
         $end = $request->end;
-        // $sales = $request->sales;
         $pagination= 100;
-
+        
         $plis = JatimPenjualan::where('merek', 'LIKE', '%' .$searchmerek. '%')
                 ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
                 ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
@@ -29,11 +29,23 @@ class JatimPenjualanController extends Controller
                 ])
                 ->paginate($pagination);
 
+        //Hasil Filter untuk piutang
+        $results = DB::connection('pgsql1')->table('tbl_ikdt2')
+            ->select('merek', DB::connection('pgsql1')->raw('SUM(total) as total_penjualan'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+        
         return view('penjualan', [
             'divisinya' => 'Jatim',
             'dataPenjualan' => $plis,
+            'filter' => $results,
         ]);
-    }
+}
 
     public function exportPdf(Request $request) {
         $searchitem = $request->searchitem;
@@ -52,10 +64,22 @@ class JatimPenjualanController extends Controller
                     $start, $end,
                 ])
                 ->paginate($pagination);
+
+        //Hasil Filter untuk piutang
+        $results = DB::connection('pgsql1')->table('tbl_ikdt2')
+            ->select('merek', DB::connection('pgsql1')->raw('SUM(total) as total_penjualan'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+        
         $pdf = Pdf::loadView('pdf.export-penjualan', [
             'dataPenjualan' => $plis,
             'divisinya' => 'Jatim',
-            // 'dataPenjualan' => Penjualan::paginate($pagination)->filter(request(['search']))->get()
+            'filter'=> $results,
         ]);
         return $pdf->download('JatimPenjualan-'.Carbon::now()->timestamp.'.pdf');
     }

@@ -1,19 +1,21 @@
 <x-layout>
-    <div class="grid gap-2 my-4">
+    {{-- Heading --}}
+    <div class="flex gap-2 my-4 place-items-center">
         <h1 class="font-bold text-stone-700 text-3xl">Laporan Penjualan {{$divisinya}}</h1>
-        <a href="export{{ Request::getRequestUri() }}"  class="underline text-blue-600">Export PDF</a>
+        <a href="export{{ Request::getRequestUri() }}"  class="text-sm px-3 py-2 hover:bg-blue-50 rounded-lg text-blue-600 w-fit flex gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 my-auto">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+            <p class="my-auto">Download PDF</p>
+        </a>
         <hr class="border-stone-500">
     </div>
-    {{-- The Filter --}}
 
-    {{-- The Tables --}}
-    <!-- component -->
     <div class="antialiased sans-serif  h-screen">
         {{-- The Tables --}}
-        <div class="container mx-auto py-6 px-4" x-data="datatables()" x-cloak>
+        <div class="container mx-auto" x-data="datatables()" x-cloak>
             {{-- Filter, Search, dll --}}
-                <form action="#" method="get">  
-                <div class="mb-4 md:flex justify-between items-center">
+            <form action="#" method="get" class="bg-blue-50 w-fit px-8 py-2 rounded-full">  
+                <div class="md:flex justify-between items-center">
                     <div class="grid md:flex gap-4">
                         {{-- DatePicker --}}                    
                         <div date-rangepicker class="flex items-center w-80">
@@ -85,7 +87,7 @@
 
                         {{-- Button --}}
                         <div class="md:flex">
-                            <button type="submit" class="flex gap-2 items-center bg-stone-50 text-stone-500 px-4 py-2 rounded-md hover:bg-stone-800 hover:text-white">
+                            <button type="submit" class="flex items-center text-stone-700 px-5 py-2 rounded-full bg-blue-200 hover:bg-blue-800 hover:text-white">
                                 <p>Submit</p>
                             </button>
                         </div>
@@ -93,7 +95,37 @@
 
                     </div>
                 </div>
-                </form>
+            </form>
+            {{-- Kesimpulan Filter --}}
+            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative my-8">
+                <table>
+                    <thead class="bg-blue-50">
+                        <tr>
+                            <th class="px-6 py-2 text-xs text-stone-600">
+                                Nama Merek
+                            </th>
+                            @foreach ($filter as $item)
+                            <th class="px-6 py-2 text-xs text-stone-800">
+                                {{$item->merek}}
+                            </th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr class="whitespace-nowrap">
+                            
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                Total
+                            </td>
+                            @foreach ($filter as $item)
+                            <td class="px-6 py-4">
+                                {{$item->total_penjualan}}
+                            </td>
+                            @endforeach
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
 
             <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
@@ -102,9 +134,8 @@
                     {{-- Table Head --}}
                     <thead>
                         <tr class="text-left">
-                            {{-- <th class="bg-stone-100 sticky top-0 border-b border-stone-200 px-6 py-2 text-stone-600 font-bold tracking-wider uppercase text-xs">NO</th> --}}
                             <template x-for="heading in headings">
-                                <th class="bg-stone-100 sticky top-0 border-b border-stone-200 px-6 py-2 text-stone-600 font-bold tracking-wider uppercase text-xs"
+                                <th class="bg-blue-50 sticky top-0 border-b border-stone-200 px-6 py-2 text-stone-600 font-bold tracking-wider uppercase text-xs"
                                     x-text="heading.value" :x-ref="heading.key" :class="{ [heading.key]: true }"></th>
                             </template>
                         </tr>
@@ -113,44 +144,40 @@
                         <template x-for="user in users" :key="user.userId">
                             @foreach ($dataPenjualan as $data)                                    
                             <tr>
-                                    {{-- PartOfTable --}}
-                                    {{-- <td class="border-dashed border-t border-stone-200 keyNoTransaksi">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center" >{{$nomor++}}</span>
-                                    </td> --}}
-                                    <td class="border-dashed border-t border-stone-200 keyNoTransaksi">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center" >{{$data->notransaksi}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyKodeItem">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->kodeitem}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyIdDetail">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->iddetail}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyDateUpdt">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center"
-                                            >{{$data->dateupd}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyHarga">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center"
-                                            >{{$data->harga}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyMerek">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center"
-                                            >{{$data->merek}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyKodeSupel">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center"
-                                            >{{$data->kodesupel}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyKodeSales">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->kodesales}}</span>
-                                    </td>
-                                    <td class="border-dashed border-t border-stone-200 keyTotal">
-                                        <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->total}}</span>
-                                    </td>
-                                    
-                                    @endforeach
-                                </tr>
+                                <td class="border-dashed border-t border-stone-200 keyNoTransaksi">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center" >{{$data->notransaksi}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyKodeItem">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->kodeitem}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyIdDetail">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->iddetail}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyDateUpdt">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center"
+                                        >{{$data->dateupd}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyHarga">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center"
+                                        >{{$data->harga}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyMerek">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center"
+                                        >{{$data->merek}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyKodeSupel">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center"
+                                        >{{$data->kodesupel}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyKodeSales">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->kodesales}}</span>
+                                </td>
+                                <td class="border-dashed border-t border-stone-200 keyTotal">
+                                    <span class="text-stone-700 px-6 py-3 flex items-center">{{$data->total}}</span>
+                                </td>
+                                
+                                @endforeach
+                            </tr>
                             </template>
                     </tbody>
                 </table>

@@ -9,7 +9,7 @@ class DashboardController extends Controller
     //index
 
     public function index() {
-        $name = 'David Gadgetin';
+        $name = 'Admin';
 
         return view('dashboard', ['nama' => $name]);
     }

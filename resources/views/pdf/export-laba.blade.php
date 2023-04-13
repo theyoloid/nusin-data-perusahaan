@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Penjualan</title>
+    <title>Laporan Laba</title>
 
     <style>
         h1 {
@@ -52,7 +52,7 @@
     @php
         $nomor = 1;
     @endphp
-    <h1 class="font">Laporan Laba Bersih    {{$divisinya}}</h1>
+    <h1 class="font">Laporan Laba Bersih   {{$divisinya}}</h1>
     <div class="inline">
         <div class="inline">
             <p class="font w-1/2">Time Export: {{ date("Y-m-d H:i:s")}}</p>
@@ -63,6 +63,35 @@
         </div>
     </div>
 
+    {{-- Kesimpulan Filter --}}
+    <h5 style="margin: 10px 0;">Laporan Total Per Merek</h5>
+    <table class="table">
+        <thead >
+            <tr>
+                <th class="table-font" style="padding: 2px 20px;">
+                    Nama Merek
+                </th>                
+                <th class="table-font" style="padding: 2px 20px;">
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($filter as $item)
+            <tr>
+                
+                <td class="table-font">
+                    {{$item->merek}}
+                </td>
+                <td class="table-font">
+                    {{$item->total_laba}}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
+    <h5 style="margin: 10px 0;">Rincian Laporan</h5>
     <table class="table">
         <thead>
             <tr>

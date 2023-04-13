@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\DanielLaba;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 
 class DanielLabaController extends Controller
@@ -24,9 +25,23 @@ class DanielLabaController extends Controller
                 ])
                 ->paginate($pagination);
 
+
+        
+        //Hasil Filter untuk piutang
+        $results = DB::connection('pgsql2')->table('tbl_laba_new')
+            ->select('merek', DB::connection('pgsql2')->raw('SUM(laba) as total_laba'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+
         return view('laba', [
             'dataLaba' => $plis,
-            'divisinya' => 'Daniel'
+            'divisinya' => 'Daniel',
+            'filter' => $results,
         ]);
     }
 
@@ -43,10 +58,23 @@ class DanielLabaController extends Controller
                     $start, $end,
                 ])
                 ->paginate($pagination);
+                
+        //Hasil Filter untuk piutang
+        $results = DB::connection('pgsql2')->table('tbl_laba_new')
+            ->select('merek', DB::connection('pgsql2')->raw('SUM(laba) as total_laba'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+            
         $pdf = Pdf::loadView('pdf.export-laba', [
             'dataLaba' => $plis,
-            'divisinya' => 'Daniel'
+            'divisinya' => 'Daniel',
+            'filter' => $results,
         ]);
-        return $pdf->download('labaBersih-'.Carbon::now()->timestamp.'.pdf');
+        return $pdf->download('Daniel_labaBersih-'.Carbon::now()->timestamp.'.pdf');
     }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\JatimLaba;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 
 class JatimLabaController extends Controller
@@ -23,10 +24,22 @@ class JatimLabaController extends Controller
                     $start, $end,
                 ])
                 ->paginate($pagination);
+        
+        //Hasil Filter untuk piutang
+        $results = DB::connection('pgsql1')->table('tbl_laba_new')
+            ->select('merek', DB::connection('pgsql1')->raw('SUM(laba) as total_laba'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
 
         return view('laba', [
             'dataLaba' => $plis,
-            'divisinya' => 'Jatim'
+            'divisinya' => 'Jatim',
+            'filter' => $results,
         ]);
     }
 
@@ -43,10 +56,23 @@ class JatimLabaController extends Controller
                     $start, $end,
                 ])
                 ->paginate($pagination);
+
+        //Hasil Filter untuk piutang
+        $results = DB::connection('pgsql1')->table('tbl_laba_new')
+            ->select('merek', DB::connection('pgsql1')->raw('SUM(laba) as total_laba'))
+            ->whereBetween('dateupd', [
+                    $start, $end,
+                ])
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+            
         $pdf = Pdf::loadView('pdf.export-laba', [
             'dataLaba' => $plis,
-            'divisinya' => 'Jatim'
+            'divisinya' => 'Jatim',
+            'filter'=> $results,
         ]);
-        return $pdf->download('labaBersih-'.Carbon::now()->timestamp.'.pdf');
+        return $pdf->download('JATIM_labaBersih-'.Carbon::now()->timestamp.'.pdf');
     }
 }
