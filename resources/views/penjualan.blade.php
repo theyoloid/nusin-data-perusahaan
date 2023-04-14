@@ -119,7 +119,7 @@
                             </td>
                             @foreach ($filter as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_penjualan}}
+                                {{$item->total_penjualan_idr}}
                             </td>
                             @endforeach
                         </tr>

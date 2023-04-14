@@ -52,7 +52,7 @@
     @php
         $nomor = 1;
     @endphp
-    <h1 class="font">Laporan Piutang  {{$divisinya}}</h1>
+    <h1 class="font">Laporan Pembayaran Piutang  {{$divisinya}}</h1>
     <div class="inline">
         <div class="inline">
             <p class="font w-1/2">Time Export: {{ date("Y-m-d H:i:s")}}</p>

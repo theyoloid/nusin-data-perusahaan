@@ -156,8 +156,9 @@
                     </tbody>
                 </table>
             </div>
+            {{-- Pagination --}}
             <div class="my-8">
-                {{ $dataLaba->links() }}
+                {{ $dataLaba->withQueryString()->links() }}
             </div>
         </div>
 

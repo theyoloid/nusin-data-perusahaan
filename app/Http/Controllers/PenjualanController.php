@@ -32,10 +32,9 @@ class PenjualanController extends Controller
         //Hasil Filter SALES untuk Penjualan
         $results = DB::connection('pgsql')
             ->table('tbl_ikdt2')
-            ->select('merek', DB::connection('pgsql')->raw('SUM(total) as total_penjualan'))
-            ->whereBetween('dateupd', [
-                    $start, $end,
-                ])
+            ->select('merek', 
+                DB::raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
@@ -69,10 +68,9 @@ class PenjualanController extends Controller
         //Hasil Filter SALES untuk Penjualan
         $results = DB::connection('pgsql')
             ->table('tbl_ikdt2')
-            ->select('merek', DB::connection('pgsql')->raw('SUM(total) as total_penjualan'))
-            ->whereBetween('dateupd', [
-                    $start, $end,
-                ])
+            ->select('merek', 
+                DB::raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')

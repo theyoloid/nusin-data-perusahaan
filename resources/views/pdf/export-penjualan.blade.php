@@ -84,7 +84,7 @@
                     {{$item->merek}}
                 </td>
                 <td class="table-font">
-                    {{$item->total_penjualan}}
+                    {{$item->total_penjualan_idr}}
                 </td>
             </tr>
             @endforeach
