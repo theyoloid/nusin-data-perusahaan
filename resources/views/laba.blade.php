@@ -95,7 +95,7 @@
                             </td>
                             @foreach ($filter as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_laba}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_laba), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>

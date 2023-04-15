@@ -30,7 +30,7 @@ class KjnLabaController extends Controller
         //Hasil Filter untuk piutang
         $results = DB::connection('pgsql3')->table('tbl_laba_new')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+            DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
@@ -62,7 +62,7 @@ class KjnLabaController extends Controller
         //Hasil Filter untuk piutang
         $results = DB::connection('pgsql3')->table('tbl_laba_new')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+            DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')

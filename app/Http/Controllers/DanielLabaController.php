@@ -27,10 +27,10 @@ class DanielLabaController extends Controller
 
 
         
-        //Hasil Filter untuk piutang
+        //Hasil Filter untuk LABA
         $results = DB::connection('pgsql2')->table('tbl_laba_new')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+            DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
@@ -59,10 +59,10 @@ class DanielLabaController extends Controller
                 ])
                 ->paginate($pagination);
                 
-        //Hasil Filter untuk piutang
+        //Hasil Filter untuk LABA
         $results = DB::connection('pgsql2')->table('tbl_laba_new')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+            DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')

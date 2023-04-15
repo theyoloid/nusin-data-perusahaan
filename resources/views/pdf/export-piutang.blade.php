@@ -88,7 +88,7 @@
                     {{$item->merek}}
                 </td>
                 <td class="table-font">
-                    {{$item->total_piutang}}
+                    Rp. {{ number_format((float) str_replace(',', '', $item->total_piutang), 2, ',', '.') }}
                 </td>
             </tr>
             @endforeach

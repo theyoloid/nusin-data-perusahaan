@@ -81,7 +81,8 @@
                             </td>
                             @foreach ($jatimPenjualan as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_penjualan_idr}}
+                                {{-- {{$item->total_penjualan_idr}} --}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_penjualan), 2, ',', '.') }}
                                 {{-- Total Penjualan --}}
                             </td>
                             @endforeach
@@ -118,7 +119,7 @@
                             </td>
                             @foreach ($jatimLaba as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_laba}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_laba), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>
@@ -154,7 +155,7 @@
                             </td>
                             @foreach ($jatimPiutang as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_piutang}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_piutang), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>
@@ -195,7 +196,7 @@
                             </td>
                             @foreach ($danielPenjualan as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_penjualan_idr}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_penjualan), 2, ',', '.') }}
                                 {{-- Total Penjualan --}}
                             </td>
                             @endforeach
@@ -232,7 +233,7 @@
                             </td>
                             @foreach ($danielLaba as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_laba}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_laba), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>
@@ -268,7 +269,7 @@
                             </td>
                             @foreach ($danielPiutang as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_piutang}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_piutang), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>
@@ -309,7 +310,7 @@
                             </td>
                             @foreach ($kjnPenjualan as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_penjualan_idr}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_penjualan), 2, ',', '.') }}
                                 {{-- Total Penjualan --}}
                             </td>
                             @endforeach
@@ -346,7 +347,7 @@
                             </td>
                             @foreach ($kjnLaba as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_laba}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_laba), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>
@@ -382,7 +383,7 @@
                             </td>
                             @foreach ($kjnPiutang as $item)
                             <td class="px-6 py-4">
-                                {{$item->total_piutang}}
+                                Rp. {{ number_format((float) str_replace(',', '', $item->total_piutang), 2, ',', '.') }}
                             </td>
                             @endforeach
                         </tr>

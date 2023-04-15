@@ -29,7 +29,7 @@ class JatimPiutangController extends Controller
         // Ini Variable untuk hasil filter based on merek
         $results = DB::connection('pgsql1')->table('tbl_piutang')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
+            DB::raw("CAST(SUM(piutang) AS FLOAT) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodesupel', 'LIKE', '%' .$searchsupel. '%')
@@ -62,7 +62,7 @@ class JatimPiutangController extends Controller
         // Ini Variable untuk hasil filter based on merek
         $results = DB::connection('pgsql1')->table('tbl_piutang')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
+            DB::raw("CAST(SUM(piutang) AS FLOAT) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodesupel', 'LIKE', '%' .$searchsupel. '%')

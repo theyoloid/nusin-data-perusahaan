@@ -32,7 +32,7 @@ class KjnPenjualanController extends Controller
         //Hasil Filter untuk Penjualan
         $results = DB::connection('pgsql3')->table('tbl_ikdt2')
             ->select('merek', 
-                DB::connection('pgsql3')->raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan"))
             ->whereBetween('dateupd', [$start, $end])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
@@ -70,7 +70,7 @@ class KjnPenjualanController extends Controller
         //Hasil Filter untuk Penjualan
         $results = DB::connection('pgsql3')->table('tbl_ikdt2')
             ->select('merek', 
-                DB::connection('pgsql3')->raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan"))
             ->whereBetween('dateupd', [$start, $end])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')

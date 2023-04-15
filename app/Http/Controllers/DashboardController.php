@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $jatimPenjualan = DB::connection('pgsql1')
             ->table('tbl_ikdt2')
             ->select('merek', 
-            DB::raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan"))
             ->whereBetween('dateupd', [$start , $end])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->groupBy('merek')
@@ -31,7 +31,7 @@ class DashboardController extends Controller
         if(empty($searchsales)){
             $jatimLaba = DB::connection('pgsql1')->table('tbl_laba_new')
                     ->select('merek', 
-                        DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+                    DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
                     ->whereBetween('dateupd', [$start, $end])
                     ->groupBy('merek')
                     ->orderBy('merek', 'asc')
@@ -44,7 +44,7 @@ class DashboardController extends Controller
         // Piutang 
         $jatimPiutang = DB::connection('pgsql1')->table('tbl_piutang')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
+            DB::raw("CAST(SUM(piutang) AS FLOAT) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->groupBy('merek')
@@ -56,7 +56,7 @@ class DashboardController extends Controller
         $danielPenjualan = DB::connection('pgsql2')
             ->table('tbl_ikdt2')
             ->select('merek', 
-            DB::raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan")) 
             ->whereBetween('dateupd', [$start , $end])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->groupBy('merek')
@@ -67,7 +67,7 @@ class DashboardController extends Controller
         if(empty($searchsales)){
             $danielLaba = DB::connection('pgsql2')->table('tbl_laba_new')
                     ->select('merek', 
-                        DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+                    DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
                     ->whereBetween('dateupd', [$start, $end])
                     ->groupBy('merek')
                     ->orderBy('merek', 'asc')
@@ -79,7 +79,7 @@ class DashboardController extends Controller
         // Piutang 
         $danielPiutang = DB::connection('pgsql2')->table('tbl_piutang')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
+            DB::raw("CAST(SUM(piutang) AS FLOAT) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->groupBy('merek')
@@ -91,7 +91,7 @@ class DashboardController extends Controller
         $kjnPenjualan = DB::connection('pgsql3')
             ->table('tbl_ikdt2')
             ->select('merek', 
-            DB::raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
+            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan")) 
             ->whereBetween('dateupd', [$start , $end])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->groupBy('merek')
@@ -102,7 +102,7 @@ class DashboardController extends Controller
         if(empty($searchsales)){
             $kjnLaba = DB::connection('pgsql3')->table('tbl_laba_new')
                     ->select('merek', 
-                        DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
+                    DB::raw("CAST(SUM(laba) AS FLOAT) as total_laba"))
                     ->whereBetween('dateupd', [$start, $end])
                     ->groupBy('merek')
                     ->orderBy('merek', 'asc')
@@ -114,7 +114,7 @@ class DashboardController extends Controller
         // Piutang 
         $kjnPiutang = DB::connection('pgsql3')->table('tbl_piutang')
             ->select('merek', 
-                DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
+            DB::raw("CAST(SUM(piutang) AS FLOAT) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->groupBy('merek')
