@@ -35,6 +35,9 @@ class JatimPenjualanController extends Controller
                 DB::connection('pgsql1')->raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();
@@ -70,6 +73,9 @@ class JatimPenjualanController extends Controller
                 DB::raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();

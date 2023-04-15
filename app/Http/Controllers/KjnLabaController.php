@@ -33,6 +33,7 @@ class KjnLabaController extends Controller
                 DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();
@@ -64,6 +65,7 @@ class KjnLabaController extends Controller
                 DB::raw("('Rp. ' || to_char(SUM(laba), 'FM999G999G999D00')) as total_laba")) 
             ->whereBetween('dateupd', [$start, $end])
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();

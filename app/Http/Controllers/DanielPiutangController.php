@@ -31,6 +31,8 @@ class DanielPiutangController extends Controller
             ->select('merek', 
                 DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
+            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            ->where('kodesupel', 'LIKE', '%' .$searchsupel. '%')
             ->groupBy('merek')
             ->orderBy('total_piutang', 'asc')
             ->get();
@@ -62,6 +64,8 @@ class DanielPiutangController extends Controller
             ->select('merek', 
                 DB::raw("('Rp. ' || to_char(SUM(piutang), 'FM999G999G999D00')) as total_piutang"))
             ->whereBetween('dateupd', [$start, $end,])
+            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            ->where('kodesupel', 'LIKE', '%' .$searchsupel. '%')
             ->groupBy('merek')
             ->orderBy('total_piutang', 'asc')
             ->get();

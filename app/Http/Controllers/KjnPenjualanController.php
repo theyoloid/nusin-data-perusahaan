@@ -34,6 +34,9 @@ class KjnPenjualanController extends Controller
             ->select('merek', 
                 DB::connection('pgsql3')->raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
             ->whereBetween('dateupd', [$start, $end])
+            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
@@ -69,6 +72,9 @@ class KjnPenjualanController extends Controller
             ->select('merek', 
                 DB::connection('pgsql3')->raw("('Rp. ' || trim(to_char(SUM(total), 'FM999G999G999D00'), '0')) as total_penjualan_idr")) 
             ->whereBetween('dateupd', [$start, $end])
+            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')

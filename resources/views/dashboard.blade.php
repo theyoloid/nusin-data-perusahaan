@@ -5,12 +5,12 @@
     </div>
     {{-- Filter, Search, dll --}}
     <form action="#" method="get" class="bg-blue-50 w-fit px-8 py-2 rounded-full mx-auto">  
-            <div class="md:flex justify-between items-center">
-                <div class="grid md:flex gap-4">
-                    <div class="md:flex">
-                        <h1 class="font-semibold text-stone-700 my-auto">Select date to view data.</h1>
-                    </div>
-                    {{-- DatePicker --}}                    
+        <div class="md:flex justify-between items-center">
+            <div class="grid md:flex gap-4">
+                <div class="md:flex">
+                    <h1 class="font-semibold text-stone-700 my-auto">Select date to view data.</h1>
+                </div>
+                {{-- DatePicker --}}                    
                 <div date-rangepicker class="flex items-center w-80">
                     {{-- Select Start day --}}
                     <div class="relative w-fit">
@@ -29,14 +29,23 @@
                     </div>
                 </div>
 
+                {{-- Select Sales --}}
+                <div class="flex gap-4">
+                    <label for="default-search" class="mb-2 text-sm font-medium text-stone-900 sr-only dark:text-stone-500">Search By Sales</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-stone-500 dark:text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="search" id="default-search" name="searchsales" class="block w-full px-4 pl-10 text-sm text-stone-900 border border-stone-300 rounded-lg bg-stone-50 focus:ring-stone-500 focus:border-stone-500 dark:bg-stone-700 dark:border-stone-600 dark:placeholder-stone-400 dark:text-stone-500 dark:focus:ring-stone-500 dark:focus:border-stone-500" placeholder="Cari Sales" value="{{request('searchsales')}}">
+                    </div>
+                </div>
+
                 {{-- Button --}}
                 <div class="md:flex">
                     <button type="submit" class="flex items-center text-stone-700 px-5 py-2 rounded-full bg-blue-200 hover:bg-blue-800 hover:text-white">
                         <p>Submit</p>
                     </button>
                 </div>
-
-
             </div>
         </div>
     </form>
