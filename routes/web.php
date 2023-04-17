@@ -14,6 +14,7 @@ use App\Http\Controllers\KjnPenjualanController;
 use App\Http\Controllers\DanielPiutangController;
 use App\Http\Controllers\JatimPenjualanController;
 use App\Http\Controllers\DanielPenjualanController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,51 +29,55 @@ use App\Http\Controllers\DanielPenjualanController;
 
 
 
-Route::get('/login', function() {
-    return view('login');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::middleware(['auth'])->group(function() {
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    
+    Route::get('/', [DashboardController::class, 'index']);
+
+
+    Route::get('/penjualan', [PenjualanController::class, 'index']);
+
+    Route::get('/export/penjualan/', [PenjualanController::class, 'exportPdf']);
+
+    Route::get('/laba',[LabaController::class, 'index'] );
+    Route::get('/export/laba/', [LabaController::class, 'exportPdf']);
+
+    Route::get('/piutang', [PiutangController::class, 'index']);
+    Route::get('/export/piutang/', [PiutangController::class, 'exportPdf']);
+
+    // JATIM
+    Route::get('/jatim/penjualan', [JatimPenjualanController::class, 'index']);
+
+    Route::get('jatim/export/jatim/penjualan/', [JatimPenjualanController::class, 'exportPdf']);
+
+    Route::get('/jatim/laba',[JatimLabaController::class, 'index'] );
+    Route::get('jatim/export/jatim/laba/', [JatimLabaController::class, 'exportPdf']);
+
+    Route::get('/jatim/piutang', [JatimPiutangController::class, 'index']);
+    Route::get('jatim/export/jatim/piutang/', [JatimPiutangController::class, 'exportPdf']);
+
+    // DANIEL
+    Route::get('/daniel/penjualan', [DanielPenjualanController::class, 'index']);
+    Route::get('daniel/export/daniel/penjualan/', [DanielPenjualanController::class, 'exportPdf']);
+
+    Route::get('/daniel/laba',[DanielLabaController::class, 'index'] );
+    Route::get('daniel/export/daniel/laba/', [DanielLabaController::class, 'exportPdf']);
+
+    Route::get('/daniel/piutang', [DanielPiutangController::class, 'index']);
+    Route::get('daniel/export/daniel/piutang/', [DanielPiutangController::class, 'exportPdf']);
+
+    // KJN
+    Route::get('/kjn/penjualan', [KjnPenjualanController::class, 'index']);
+    Route::get('kjn/export/kjn/penjualan/', [KjnPenjualanController::class, 'exportPdf']);
+
+    Route::get('/kjn/laba',[KjnLabaController::class, 'index'] );
+    Route::get('kjn/export/kjn/laba/', [KjnLabaController::class, 'exportPdf']);
+
+    Route::get('/kjn/piutang', [KjnPiutangController::class, 'index']);
+    Route::get('kjn/export/kjn/piutang/', [KjnPiutangController::class, 'exportPdf']);
+
 });
-Route::get('/', [DashboardController::class, 'index']);
-
-
-Route::get('/penjualan', [PenjualanController::class, 'index']);
-
-Route::get('/export/penjualan/', [PenjualanController::class, 'exportPdf']);
-
-Route::get('/laba',[LabaController::class, 'index'] );
-Route::get('/export/laba/', [LabaController::class, 'exportPdf']);
-
-Route::get('/piutang', [PiutangController::class, 'index']);
-Route::get('/export/piutang/', [PiutangController::class, 'exportPdf']);
-
-// JATIM
-Route::get('/jatim/penjualan', [JatimPenjualanController::class, 'index']);
-
-Route::get('jatim/export/jatim/penjualan/', [JatimPenjualanController::class, 'exportPdf']);
-
-Route::get('/jatim/laba',[JatimLabaController::class, 'index'] );
-Route::get('jatim/export/jatim/laba/', [JatimLabaController::class, 'exportPdf']);
-
-Route::get('/jatim/piutang', [JatimPiutangController::class, 'index']);
-Route::get('jatim/export/jatim/piutang/', [JatimPiutangController::class, 'exportPdf']);
-
-// DANIEL
-Route::get('/daniel/penjualan', [DanielPenjualanController::class, 'index']);
-Route::get('daniel/export/daniel/penjualan/', [DanielPenjualanController::class, 'exportPdf']);
-
-Route::get('/daniel/laba',[DanielLabaController::class, 'index'] );
-Route::get('daniel/export/daniel/laba/', [DanielLabaController::class, 'exportPdf']);
-
-Route::get('/daniel/piutang', [DanielPiutangController::class, 'index']);
-Route::get('daniel/export/daniel/piutang/', [DanielPiutangController::class, 'exportPdf']);
-
-// KJN
-Route::get('/kjn/penjualan', [KjnPenjualanController::class, 'index']);
-Route::get('kjn/export/kjn/penjualan/', [KjnPenjualanController::class, 'exportPdf']);
-
-Route::get('/kjn/laba',[KjnLabaController::class, 'index'] );
-Route::get('kjn/export/kjn/laba/', [KjnLabaController::class, 'exportPdf']);
-
-Route::get('/kjn/piutang', [KjnPiutangController::class, 'index']);
-Route::get('kjn/export/kjn/piutang/', [KjnPiutangController::class, 'exportPdf']);
-
 // 
