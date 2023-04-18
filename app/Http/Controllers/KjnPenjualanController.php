@@ -30,16 +30,29 @@ class KjnPenjualanController extends Controller
                 ->paginate($pagination);
         
         //Hasil Filter untuk Penjualan
-        $results =  DB::connection('pgsql3')->table('tbl_penjualan')
+        if (empty($searchsales)) {
+            $results =  DB::connection('pgsql3')->table('tbl_penjualan')
+            ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
             ->whereBetween('dateupd', [$start, $end])
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+        } else {
+            $results =  DB::connection('pgsql3')->table('tbl_penjualan')
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
+            ->whereBetween('dateupd', [$start, $end])
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
-            ->get();
+            ->get()
+            ;
+        } 
         
         return view('penjualan', [
             'divisinya' => 'Kjn',
@@ -67,16 +80,29 @@ class KjnPenjualanController extends Controller
                 ->paginate($pagination);
 
         //Hasil Filter untuk Penjualan
-        $results =  DB::connection('pgsql3')->table('tbl_penjualan')
+        if (empty($searchsales)) {
+            $results =  DB::connection('pgsql3')->table('tbl_penjualan')
+            ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
+            ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
             ->whereBetween('dateupd', [$start, $end])
+            ->groupBy('merek')
+            ->orderBy('merek', 'asc')
+            ->get();
+        } else {
+            $results =  DB::connection('pgsql3')->table('tbl_penjualan')
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
             ->where('merek', 'LIKE', '%' .$searchmerek. '%')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
+            ->whereBetween('dateupd', [$start, $end])
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
-            ->get();
+            ->get()
+            ;
+        } 
         
         
         $pdf = Pdf::loadView('pdf.export-penjualan', [
