@@ -23,7 +23,10 @@ return new class extends Migration
     tbl_ikdt.total
    FROM ((tbl_ikdt
      JOIN tbl_ikhd USING (notransaksi))
-     JOIN tbl_item ON (((tbl_item.kodeitem)::text = (tbl_ikdt.kodeitem)::text)));");
+     JOIN tbl_item ON (((tbl_item.kodeitem)::text = (tbl_ikdt.kodeitem)::text))),
+     group by tbl_ikdt.notransaksi,tbl_ikdt.iddetail,
+		tbl_ikdt.kodeitem,tbl_item.merek,tbl_ikdt.dateupd,
+		tbl_ikdt.harga,tbl_ikhd.kodesupel,tbl_ikhd.kodesales,tbl_ikdt.total;");
     }
 
     /**

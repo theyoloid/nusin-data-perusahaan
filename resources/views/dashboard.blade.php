@@ -1,6 +1,6 @@
 <x-layout>
     <div class="grid gap-2 my-4">
-        <h1 class="font-bold text-stone-700 text-3xl"> Laporan Genereal</h1>
+        <h1 class="font-bold text-stone-700 text-3xl"> Laporan General</h1>
         <hr class="border-stone-500">
     </div>
     {{-- Filter, Search, dll --}}

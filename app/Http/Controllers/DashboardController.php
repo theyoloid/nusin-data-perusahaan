@@ -17,12 +17,19 @@ class DashboardController extends Controller
         
         // JATIM
         // Penjualan 
-        $jatimPenjualan = DB::connection('pgsql1')
-            ->table('tbl_ikdt2')
-            ->select('merek', 
-            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan"))
-            ->whereBetween('dateupd', [$start , $end])
-            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+        // $jatimPenjualan = DB::connection('pgsql1')
+            // ->table('tbl_penjualan')
+            // ->select('merek', 
+            // DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan"))
+            // ->whereBetween('dateupd', [$start , $end])
+            // ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+            // ->groupBy('merek')
+            // ->orderBy('merek', 'asc')
+            // ->get();
+
+           $jatimPenjualan =  DB::connection('pgsql1')->table('tbl_penjualan')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
+            ->whereBetween('dateupd', [$start, $end])
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();
@@ -53,12 +60,9 @@ class DashboardController extends Controller
         
         // DANIEL
         // Penjualan 
-        $danielPenjualan = DB::connection('pgsql2')
-            ->table('tbl_ikdt2')
-            ->select('merek', 
-            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan")) 
-            ->whereBetween('dateupd', [$start , $end])
-            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+        $danielPenjualan =  DB::connection('pgsql2')->table('tbl_penjualan')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
+            ->whereBetween('dateupd', [$start, $end])
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();
@@ -88,12 +92,9 @@ class DashboardController extends Controller
         
         // KJN
         // Penjualan 
-        $kjnPenjualan = DB::connection('pgsql3')
-            ->table('tbl_ikdt2')
-            ->select('merek', 
-            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan")) 
-            ->whereBetween('dateupd', [$start , $end])
-            ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
+        $kjnPenjualan =  DB::connection('pgsql3')->table('tbl_penjualan')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
+            ->whereBetween('dateupd', [$start, $end])
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();

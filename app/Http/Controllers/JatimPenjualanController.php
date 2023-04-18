@@ -30,14 +30,13 @@ class JatimPenjualanController extends Controller
                 ->paginate($pagination);
 
         //Hasil Filter untuk Penjualan
-        $results = DB::connection('pgsql1')->table('tbl_ikdt2')
-            ->select('merek', 
-            DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan")) 
+        $results =  DB::connection('pgsql1')->table('tbl_penjualan')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
             ->whereBetween('dateupd', [$start, $end])
-            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();
@@ -67,15 +66,14 @@ class JatimPenjualanController extends Controller
                 ])
                 ->paginate($pagination);
 
-        //Hasil Filter untuk piutang
-        $results = DB::connection('pgsql1')->table('tbl_ikdt2')
-            ->select('merek', 
-                DB::raw("CAST(SUM(total) AS FLOAT) as total_penjualan")) 
+        //Hasil Filter 
+        $results =  DB::connection('pgsql1')->table('tbl_penjualan')
+            ->select('merek', DB::raw('SUM(total) AS total_penjualan'))
             ->whereBetween('dateupd', [$start, $end])
-            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->where('kodesales', 'LIKE', '%' .$searchsales. '%')
             ->where('kodeitem', 'LIKE', '%' .$searchitem. '%')
             ->where('notransaksi', 'LIKE', '%' .$searcnotrans. '%')
+            ->where('merek', 'LIKE', '%' .$searchmerek. '%')
             ->groupBy('merek')
             ->orderBy('merek', 'asc')
             ->get();
